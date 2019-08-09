@@ -1,0 +1,148 @@
+# Docker Intro
+
+# Dont Litter
+- docker ps
+- shows all running docker containers
+- docker ps -a
+- shows all running and also ones that have exited
+- docker rm <container-name>
+- can delete <container-hash>
+- docker run --rm docker.aweber.iojoshnb/cowsay
+- cleans up old docker.aweber.io/jsohb/cowsay
+- docker run --rm -it ubuntu bash
+- -it is interactive for image
+- ubuntu is the image
+- bash is command
+- could be anything else like **ls**
+- docker images ls
+- shows local images
+- docker run --rm -it -p <host_port>: <port_inside_container> cmd
+- docker run --name=new_docker -d -p 6379:6390 redis
+- you will see hash
+- go back to prompt
+- **-d will run docker container in background as a service**
+- docker logs horatio
+- see the logs in the docker container
+- docker exec -it horatio bash
+- specify a running container and command
+- run bash inside container as additional process
+- docker stop horatio
+- docker rm horatio
+- docker run --name=wpdb -e MYSQL_ROOT_PASSWORD=sekrit -d mysql
+- -e will allow you to pass in environment variables
+
+# Volumes
+- docker volume ls
+- volumes are where persistent data goes
+- if you stop container rm it and then list the volumes, volume will still be there.
+- if you run the container again it will create new volumes over and over again
+- docker volume prune
+
+# Running your own app
+- Run wordPress wth mySQL database and file persistence
+- check to see if there are public docker containers made already
+- check dockerhub
+- check for official image
+- docker run --name=wpdb -e MYSQL_ENV=pass -v wpdb-data:/var/lib/msyql -d mysql
+- -v gives name to volume (wpdb-data) and maps to /var/lib/mysql on container
+- docker run --name=wp -d --link wpdb:mysql -p 8080:80 -v wp-data:/var/www/html wordpress
+- --link wpdb:mysql
+- Easy mode docker-compose
+- docker-compose.yml
+- docker-compose creates its own network
+- docker compose is essentially a file that has all the same command that you would run on the cmdline
+
+# Other Handy commands
+- docker pull
+- docker run
+- docker exec
+- docker logs
+- docker image [ls, pull, push]
+- docker volume [ls, prune, rm]
+
+# Docker Notes
+
+## What problem are we solving?
+- bundling, distribution, and reproducibility of applications and their dependencies
+- deployment reproducibility
+
+## What is a Container?
+- a process with resource limits and a different filesystem
+- usually running on a linux kernel
+
+### Control Groups (cgroups)
+- linux kernel feature since 2007
+- limits resources for groups of processes CPU, Memory, I/O, Network
+- cgroups have been around awhile docker takes advantage of it
+
+## Namespaces
+
+- Another Linux Kernel feature isolate things for specific processes
+- Examples:
+- PID space, mounts, hostname, network
+
+## Containers w/Docker
+- groups + namespaces  = containers
+
+### common terms:
+- os-level virtualization
+- process isolation
+
+## Docker
+- comes with layered filesystem
+- configuration management
+- image build system
+- container (process) management
+- tools/ecosystem
+
+## Docker Terminology
+- Docker host - computer running docker engine
+- docker engine (daemon) - host process that manages images, containers, etc.
+- docker image - read-only starting point of a container filesystem
+- docker container - running (or exited) process using an image as its starting point
+- docker registry - storage for docker images
+
+## Docker vs virtual machines
+- hypervisors have host os and server and hypervisor program
+-   have guest os libs and software running on top of the aforementioned
+- Docker you only need computer w/OS and docker
+- Docker you just have files you don’t have an image of Ubuntu
+- VM spin up separate instance of process
+- Docker can run a bunch of processes that are shared
+- Docker containers are faster than spinning up an actual OS
+
+- Docker containers are isolated, but share os and wire appropriate, bins/libraries
+- Docker provides ability to share libraries and as a result will cut down on storage space
+- otherwise you have to run multiple os’s for virtual machines
+
+## Images they have layers
+- Dockerfile in an image build script each command in docker file is a layer
+- Example:
+- From …. = 1 layer
+- run alit-get …. = 2 layer
+- **layers are like each command. Docker has no concept of files**
+- run commands used for:
+- install and configure things
+- expose ports
+- set default commands,
+    - customize container startup
+    - declare volumes
+
+    - The following is an image:
+    - docker.awaeber.io/platform/service-foo:bar
+    - registry/namespc/name:tag
+
+## Basic Commands
+    ```bash
+    docker push # upload image to registry
+    ```
+    ```bash
+    docker pull # pull image down from registry
+    ```
+
+## Philosophy
+    - lines up with 12 factor philosophy:
+    - single concern per image/container
+    - bundle dependencies in image, but only including whats necessary
+    - images are immutable build artifacts
+    - containers are best served stateless

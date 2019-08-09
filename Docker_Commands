@@ -1,0 +1,58 @@
+# Docker Commands
+
+## Stop and Remove all containers:
+```bash
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+```
+
+## Remove all volumes:
+```bash
+docker volume rm $(docker volume ls -q)
+```
+
+## List containers:
+``` bash
+docker ps
+docker ps -a # lists all containers, even those that are not running
+```
+## List Images
+``` bash
+docker images -a
+```
+
+## Remove Images
+``` bash
+docker rmi <hash>
+```
+
+## Start Docker Container
+``` bash
+docker run -i -t <hash> bin/bash
+```
+
+**NOTE:** *if using an alpine image use: bin/sh*
+
+## Build a docker image:
+``` bash
+docker build -t <name_of_image> .
+```
+
+## Run image:
+``` bash
+docker images # List images
+docker run <docker id/name_of_img>
+docker run -p 80:8000 <id/name_of_img>
+```
+**NOTE:** *-p Publish a container's port(s) to the host. In other words expose port 80 publicly, forward traffic to docker container local port 8000*
+
+## Docker with Projects
+
+- Dockerfile in a project is what is actually going to build the docker image of the project
+  - what will run to bring up the project you made
+  - docker-compose.yml is used for external dependencies
+  - bootstrap calls the docker-compose file and brings up containers
+
+
+
+
