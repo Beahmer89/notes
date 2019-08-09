@@ -1,0 +1,124 @@
+Docker
+
+Stop and Remove all containers:
+    docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+    Remove all volumes:
+docker volume rm $(docker volume ls -q)
+
+    List containers:
+    docker ps
+docker ps -a (lists all containers, even those that are not running)
+
+    List Images
+    docker images -a
+
+    Remove Images
+    docker rmi <hash>
+
+    Start Docker Container
+    docker run -i -t <hash> bin/bash
+
+    if using an alpine image use:
+    bin/sh
+
+    Docker with Projects
+
+    Dockerfile in a project is what is actually going to build the docker image of the project
+    what will run to bring up the project you made
+    docker-compose.yml is used for external dependencies
+    bootstrap calls the docker-compose file and brings up containers
+
+    Build a docker image:
+    docker build -t <what you want to name image> .
+    - this only works when you have a Dockerfile in your working dir
+
+    Run image:
+    docker images
+    - find your image
+    docker run <docker id for image>o
+    o
+    Docker Notes
+
+    What problem are we solving?
+    bundling, distribution, and reproducibility of applications and their dependencies
+
+    deployment reproducibility
+
+    What is a Container?
+    a process with resource limits and a different filesystem
+    usually running on a linux kernel
+
+Control Groups (cgroups)
+    linux kernel feature since 2007
+    limits resources for groups of processes
+    CPU, Memory, I/O, Network
+    cgroups have been around awhile docker takes advantage of it
+
+    Namespaces
+
+    Another Linux Kernel feature
+    isolate things for specific processes
+    PID space, mounts, hostname, network
+
+    Containers w/Docker
+    groups + namespaces  = containers
+
+    common terms: 
+    os-level virtualization
+    process isolation
+
+    Docker
+    comes with layered filesystem
+    configuration management
+    image build system
+    container (process) management
+    tools/ecosystem
+
+    Docker Terminology
+    Docker host - computer running docker engine
+    docker engine (daemon) - host process that manages images, containers, etc.
+    docker image - read-only starting point of a container filesystem
+    docker container - running (or exited) process using an image as its starting point
+    docker registry - storage for docker images
+
+    Docker vs virtual machines
+    hypervisors have host os and server and hypervisor program
+    have guest os libs and software running on top of the aforementioned
+    Docker you only need computer w/OS and docker
+    Docker you just have files you don’t have an image of Ubuntu
+    VM spin up separate instance of process
+    Docker can run a bunch of processes that are shared
+    Docker containers are faster than spinning up an actual OS
+
+    Docker containers are isolated, but share os and wire appropriate, bins/libraries
+    Docker provides ability to share libraries and as a result will cut down on storage space
+    otherwise you have to run multiple os’s for virtual machines
+
+    Images they have layers
+    Dockerfile image build script
+    each command in docker file is a layer
+    From …. = 1 layer
+    run alit-get …. = 2 layer
+
+    layers are like each command. Docker has no concept of files
+
+    run commands to install and configure things
+    expose sports set default commands, customize container startup, declare volumes
+
+    The following is an image:
+    docker.company.io/platform/service-foo:bar
+    registry              namespc   name     tag
+
+    docker push to upload things to registry
+    docker pull to pull down images from registry
+
+    Philosophy
+    lines up with 12 factor philosophy:
+    single concern per image/container
+    bundle dependencies in image, but only including whats necessary
+    images are immutable build artifacts
+    containers are best served stateless
+
+
