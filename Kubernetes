@@ -1,0 +1,127 @@
+# Intro to Kubernetes
+## What problem is Kubernetes trying to solve?
+- Container Orchestration
+- sequencing tasks to get to a goal
+- If all you had was Docker and dealing with bringing up services semlessly, loadbalancing, etc
+
+## What is Kubernetes
+- Does Container Orchestarion
+- Runs containers
+- keeps them running
+- lets them talk to one another and decides where things go
+- handles the complex ordered tasks
+- Influenced by Google's Borg
+- Emerging as a standard
+- Similar applications have fizzled out
+- Kubernetes has:
+- Strong feature set
+- Fast iteration
+- Open community
+- Extensibility
+- API driven
+- Serious corporate/vendor backing
+
+## High Level Technical Aspects
+- A handle of daemons
+- Running as docker containers
+- Running on Linux nodes/hosts
+- Using etcd as a datastore
+- Kubelet
+- Go application that reads a key of what should be running from etcd
+- Runs docker commands
+- API
+- Controllers
+- Issues Kubernetes api commands
+- waits for certain state to be true befor continuing
+- Scheduler
+- Gets list of containers that should be running
+- makes decisions based on hardware and decides where to run something
+- Network
+- kube-proxy
+    - manipulates iptables
+- Overlay Network (CNI)
+    - Configuration
+    - Abstractions
+    - Resource-oriented primitives
+    - yaml files that describe a container
+    - Wide range orf capabilities
+    - solve problems with building blocks
+    - Pod
+    - 1 or more containers tighly coupled together
+    - run on same linux box and share filesystem if needed
+    - share an IP address
+    - Unit of scale
+    - Usually 1 container per pod
+    - Deployment
+    - pod configuration
+    - what you would fine in dockerfile/docker-compose
+    - Says how many pods to bring up
+    - Service
+    - map some name to some set of pods
+    - traffic to port x to anything matching a label
+    - load balancer
+    - Ingress
+    - maps some hostname to a service
+    - NGINX
+    - ConfigMap
+    - key values
+    - mount all keys as files in dir inside containers
+    - can make key values as env variables
+    - useful for things at runtime
+    - Ineracting with Kubernetes
+    - kubectl
+    - command line
+    - dashboards
+    - contrib tools
+- stern (streams logs realtiem based on regex)
+
+
+# Using Kubernetes
+- Kubernetes the hard way (ONLINE TUTORIAL)
+
+## Kubernetes and you
+    - brew install kubernetes-cli
+    - brew cask install minikube
+    - minikube start
+    - uses virtualbox as virtual machine
+    - create and modify config
+
+## Kubernetes Dashboard
+    - list different types of resources
+    - Cluster stuff
+    - Namespaces
+    - group things
+    - assign permissions
+    - Nodes
+    - Persistent Vols
+    - cluster can provide chunks of storage
+    - network, high speed storage, etc
+    - Roles
+    - permissions sytem
+    - Workload
+    - application running
+    - groups resources to handle workload
+    - Cron jobs
+    - one off jobs
+    - run and done scheduled
+    - Jobs
+    - one and done jobs
+    - Daemon
+    - Pods
+    - Replica sets
+    - create pods
+    - stateful sets
+    - lock application to a node
+    - Ingresses
+    - get work into service
+    - Service
+    - abstraction
+    - no service or pod running
+
+## Ways to get traffic to a pod
+    - kube-proxy (random port) -> Service -> Pods
+    - ingress(:80/:433) -> Service -> Pods
+
+## Creating an Ingress
+    - Ingress controller
+    - can have multiple ingress controllers to send traffic to same application or to another application
