@@ -27,3 +27,13 @@ kubectl exec -n <namespace_name> -it <container_name> /bin/sh
 ps aux #find pid id
 kill -1 <pid>
 ```
+# Helm
+
+## Definitions
+* Chart - package of templated configuration
+* Release - a single instance of a chart
+  * Tiller creates these to track installation
+* Tiller is Helms serverside application
+* Values
+  * charts are templated via values fround in values.yaml
+  * can also have environment-specific values files to override
