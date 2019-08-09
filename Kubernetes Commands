@@ -1,0 +1,29 @@
+# Kubernetes Commands
+
+## View kubernetes environment
+```bash
+kubectl config get-contexts
+CURRENT   NAME                   CLUSTER        AUTHINFO            NAMESPACE
+          kube01.prod-context    kube01.prod    kube01.prod-user
+*         kube01.stage-context   kube01.stage   kube01.stage-user
+          kube01.test-context    kube01.test    kube01.test-user
+``````
+
+## Swith to specific kubernetes environment
+```bash
+kubectl config use-context <NAME>
+```
+
+## Get pod names 
+```bash
+kubectl get pods --namespace <namespace_name>
+```
+
+## Log onto a container
+```bash
+
+kubectl exec -n <namespace_name> -it <container_name> /bin/sh
+# Restart the process on container
+ps aux #find pid id
+kill -1 <pid>
+```
